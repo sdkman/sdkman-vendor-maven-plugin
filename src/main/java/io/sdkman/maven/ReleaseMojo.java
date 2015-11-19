@@ -6,6 +6,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +23,11 @@ public class ReleaseMojo extends BaseMojo {
 
   @Override
   protected Map<String, String> getPayload() throws Exception {
-    Map<String, String> payload = super.getPayload();
+    if (candidate == null) {
+      throw new Exception("Missing candidate");
+    }
+    Map<String, String> payload = new HashMap<>();
+    payload.put("candidate", candidate);
     payload.put("version", version);
     payload.put("url", url);
     return payload;

@@ -7,6 +7,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Map;
 @Mojo(name = "announce")
 public class AnnounceMojo extends BaseMojo {
 
-  @Parameter(property = "sdkman.version", required = true)
+  @Parameter(property = "sdkman.version")
   protected String version;
 
   @Parameter(property = "sdkman.hashtag")
@@ -32,15 +33,21 @@ public class AnnounceMojo extends BaseMojo {
     if (text == null) {
       text = "";
     }
-    Map<String, String> payload = super.getPayload();
-    payload.put("version", version);
+    Map<String, String> payload = new HashMap<>();
     if (text.isEmpty()) {
       if (hashtag.isEmpty()) {
         throw new Exception("Must set one of hashtag or text property");
       }
+      if (candidate == null || candidate.isEmpty()) {
+        throw new Exception("Missing candidate");
+      }
+      if (version == null || version.isEmpty()) {
+        throw new Exception("Missing version");
+      }
+      payload.put("version", version);
+      payload.put("candidate", candidate);
       payload.put("hashtag", hashtag);
     } else {
-      payload.clear();
       payload.put("text", text);
     }
     return payload;

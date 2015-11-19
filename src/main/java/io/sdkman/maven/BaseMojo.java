@@ -27,17 +27,13 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(property = "sdkman.consumer.token", required = true)
   protected String consumerToken;
 
-  @Parameter(property = "sdkman.candidate", required = true)
+  @Parameter(property = "sdkman.candidate")
   protected String candidate;
 
   @Parameter(defaultValue = "sdkman-vendor-dev.herokuapp.com")
   protected String apiHost;
 
-  protected Map<String, String> getPayload() throws Exception {
-    HashMap<String, String> payload = new LinkedHashMap<>();
-    payload.put("candidate", candidate);
-    return payload;
-  }
+  protected abstract Map<String, String> getPayload() throws Exception;
 
   protected abstract HttpEntityEnclosingRequestBase createHttpRequest() throws Exception;
 
