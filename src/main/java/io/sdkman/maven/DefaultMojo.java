@@ -26,7 +26,7 @@ public class DefaultMojo extends BaseMojo {
   }
 
   @Override
-  protected Map<String, String> getPayload() {
+  protected Map<String, String> getPayload() throws Exception {
     Map<String, String> payload = super.getPayload();
     payload.put("default", _default);
     return payload;

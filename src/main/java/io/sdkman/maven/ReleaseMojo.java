@@ -21,7 +21,7 @@ public class ReleaseMojo extends BaseMojo {
   protected String url;
 
   @Override
-  protected Map<String, String> getPayload() {
+  protected Map<String, String> getPayload() throws Exception {
     Map<String, String> payload = super.getPayload();
     payload.put("version", version);
     payload.put("url", url);

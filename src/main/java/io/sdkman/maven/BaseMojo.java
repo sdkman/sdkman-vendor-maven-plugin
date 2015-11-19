@@ -33,7 +33,7 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(defaultValue = "sdkman-vendor-dev.herokuapp.com")
   protected String apiHost;
 
-  protected Map<String, String> getPayload() {
+  protected Map<String, String> getPayload() throws Exception {
     HashMap<String, String> payload = new LinkedHashMap<>();
     payload.put("candidate", candidate);
     return payload;
