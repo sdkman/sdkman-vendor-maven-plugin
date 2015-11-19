@@ -1,7 +1,7 @@
 package io.sdkman.maven;
 
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -11,25 +11,29 @@ import java.util.Map;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-@Mojo(name = "release")
-public class ReleaseMojo extends BaseMojo {
+@Mojo(name = "default")
+public class DefaultMojo extends BaseMojo {
 
-  @Parameter(property = "sdkman.version", required = true)
-  protected String version;
+  @Parameter(property = "sdkman.default", required = true)
+  protected String _default;
 
-  @Parameter(property = "sdkman.url", required = true)
-  protected String url;
+  public String getDefault() {
+    return _default;
+  }
+
+  public void setDefault(String _default) {
+    this._default = _default;
+  }
 
   @Override
   protected Map<String, String> getPayload() {
     Map<String, String> payload = super.getPayload();
-    payload.put("version", version);
-    payload.put("url", url);
+    payload.put("default", _default);
     return payload;
   }
 
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() throws Exception {
-    return new HttpPost(new URI("https", apiHost, "/release", null));
+    return new HttpPut(new URI("https", apiHost, "/default", null));
   }
 }
