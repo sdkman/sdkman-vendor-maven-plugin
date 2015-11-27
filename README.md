@@ -17,6 +17,7 @@ Usage in a `pom.xml`:
     </goals>
     <phase>deploy</phase>
     <configuration>
+      <apiHost>the-api-host</apiHost>
       <candidate>the-candidate</candidate>
       <version>the-version</version>
       <url>the-url</url>
@@ -28,10 +29,14 @@ Usage in a `pom.xml`:
 The `consumerKey` and `consumerToken` could also be specified in the `configuration` tag but these should not be there. These
 values have corresponding properties that should be used from the command line or configured in the `settings.xml`.
 
+The `apiHost` specifies the SDKMan server to use, the default value is the SDKMan dev server _sdkman-vendor-dev.herokuapp.com_.
+For real announce, this should be replaced by the SDKMan prod server.
+
 Usage from command line:
 
 ```
 mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:release \ 
+    -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
@@ -54,6 +59,7 @@ Usage in a `pom.xml`:
     </goals>
     <phase>deploy</phase>
     <configuration>
+      <apiHost>the-api-host</apiHost>
       <candidate>the-candidate</candidate>
       <default>the-version</default>
     </configuration>
@@ -65,6 +71,7 @@ Usage from command line:
 
 ```
 mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+    -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
@@ -86,6 +93,7 @@ Usage in a `pom.xml`:
     </goals>
     <phase>deploy</phase>
     <configuration>
+      <apiHost>the-api-host</apiHost>
       <candidate>the-candidate</candidate>
       <version>the-version</version>
       <hashtag>the-hashtag</hashtag>
@@ -98,6 +106,7 @@ Usage from command line:
 
 ```
 mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+    -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
@@ -120,6 +129,7 @@ Usage in a `pom.xml`:
     </goals>
     <phase>deploy</phase>
     <configuration>
+      <apiHost>the-api-host</apiHost>
       <text>the-text</text>
     </configuration>
   </execution>
@@ -130,8 +140,26 @@ Usage from command line:
 
 ```
 mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+    -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.text=${my_text}
 ```
 
+## External configuration
+
+The consumer key/token and the api host can be specified in the _settings.xml_ Maven configuration, most likely with
+a profile to activate when necessary:
+
+```
+<profiles>
+  <id>sdkman</id>
+  <profile>
+    <sdkman.api.host>the-api-host</sdkman.api.host>
+    <sdkman.consumer.key>my-key</sdkman.consumer.key>
+    <sdkman.consumer.token>my-token</sdkman.consumer.token>
+  </profile>
+</profiles>
+```
+
+It can be used activating the _sdkman_ profile.

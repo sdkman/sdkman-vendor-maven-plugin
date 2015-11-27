@@ -12,8 +12,6 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +28,7 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(property = "sdkman.candidate")
   protected String candidate;
 
-  @Parameter(defaultValue = "sdkman-vendor-dev.herokuapp.com")
+  @Parameter(property = "sdkman.api.host", defaultValue = "sdkman-vendor-dev.herokuapp.com")
   protected String apiHost;
 
   protected abstract Map<String, String> getPayload() throws Exception;
