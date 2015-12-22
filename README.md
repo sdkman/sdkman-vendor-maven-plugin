@@ -105,7 +105,7 @@ Usage in a `pom.xml`:
 Usage from command line:
 
 ```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:announce \ 
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
@@ -139,7 +139,7 @@ Usage in a `pom.xml`:
 Usage from command line:
 
 ```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:announce \ 
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
