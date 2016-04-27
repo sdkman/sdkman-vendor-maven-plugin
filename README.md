@@ -29,8 +29,7 @@ Usage in a `pom.xml`:
 The `consumerKey` and `consumerToken` could also be specified in the `configuration` tag but these should not be there. These
 values have corresponding properties that should be used from the command line or configured in the `settings.xml`.
 
-The `apiHost` specifies the SDKMAN! server to use, the default value is the SDKMAN! dev server _sdkman-vendor-dev.herokuapp.com_.
-For real announce, this should be replaced by the SDKMAN! prod server.
+The `apiHost` specifies the SDKMAN! server to use, the default value is _vendors.sdkman.io_.
 
 Usage from command line:
 

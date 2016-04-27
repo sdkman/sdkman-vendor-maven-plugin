@@ -28,7 +28,7 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(property = "sdkman.candidate")
   protected String candidate;
 
-  @Parameter(property = "sdkman.api.host", defaultValue = "sdkman-vendor-dev.herokuapp.com")
+  @Parameter(property = "sdkman.api.host", defaultValue = "vendors.sdkman.io")
   protected String apiHost;
 
   protected abstract Map<String, String> getPayload() throws Exception;
