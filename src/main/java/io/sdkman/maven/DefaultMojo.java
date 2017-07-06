@@ -15,15 +15,15 @@ import java.util.Map;
 @Mojo(name = "default")
 public class DefaultMojo extends BaseMojo {
 
-  @Parameter(property = "sdkman.default", required = true)
-  protected String _default;
+  @Parameter(property = "sdkman.version", required = true)
+  protected String _version;
 
-  public String getDefault() {
-    return _default;
+  public String getVersion() {
+    return _version;
   }
 
-  public void setDefault(String _default) {
-    this._default = _default;
+  public void setVersion(String _version) {
+    this._version  = _version;
   }
 
   @Override
@@ -33,7 +33,7 @@ public class DefaultMojo extends BaseMojo {
     }
     Map<String, String> payload = new HashMap<>();
     payload.put("candidate", candidate);
-    payload.put("default", _default);
+    payload.put("version", _version);
     return payload;
   }
 
