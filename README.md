@@ -60,7 +60,7 @@ Usage in a `pom.xml`:
     <configuration>
       <apiHost>the-api-host</apiHost>
       <candidate>the-candidate</candidate>
-      <default>the-version</default>
+      <version>the-version</version>
     </configuration>
   </execution>
 </plugin>
@@ -74,7 +74,7 @@ mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
-    -Dsdkman.default=${my_version}
+    -Dsdkman.version=${my_version}
 ```
 
 ### Broadcast a Structured Message
