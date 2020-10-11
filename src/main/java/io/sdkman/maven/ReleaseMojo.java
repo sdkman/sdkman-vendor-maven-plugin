@@ -29,21 +29,20 @@ public class ReleaseMojo extends BaseMojo {
   protected String url;
 
   /**
-   * Platorm to downlodable URL mappings.
+   * Platform to downlodable URL mappings.
    * Supported platforms are:
    * <ul>
    * <li>MAC_OSX</li>
    * <li>WINDOWS_64</li>
    * <li>LINUX_64</li>
    * <li>LINUX_32</li>
-   *
+   * </ul>
    * Example:
    * <pre>
    *     "MAC_OSX"   :"https://host/micronaut-x.y.z-macosx.zip"
    *     "LINUX_64"  :"https://host/micronaut-x.y.z-linux64.zip"
    *     "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip"
    * </pre>
-   * </ul>
    */
   @Parameter(property = "sdkman.platforms")
   protected Map<String, String> platforms;
