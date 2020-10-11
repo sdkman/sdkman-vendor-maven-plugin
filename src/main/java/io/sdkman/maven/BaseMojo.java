@@ -1,6 +1,7 @@
 package io.sdkman.maven;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.StringEntity;
@@ -11,7 +12,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,46 +28,55 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(property = "sdkman.consumer.token", required = true)
   protected String consumerToken;
 
-  @Parameter(property = "sdkman.candidate")
+  @Parameter(property = "sdkman.candidate", required = true)
   protected String candidate;
+
+  @Parameter(property = "sdkman.version", required = true)
+  protected String version;
 
   @Parameter(property = "sdkman.api.host", defaultValue = "vendors.sdkman.io")
   protected String apiHost;
 
-  protected abstract Map<String, String> getPayload() throws Exception;
+  protected Map<String, String> getPayload() {
+    Map<String, String> payload = new HashMap<>();
+    payload.put("candidate", candidate);
+    payload.put("version", version);
+    return payload;
+  }
 
-  protected abstract HttpEntityEnclosingRequestBase createHttpRequest() throws Exception;
+  protected abstract HttpEntityEnclosingRequestBase createHttpRequest();
 
   @Override
-  public void execute() throws MojoExecutionException, MojoFailureException {
-
+  public void execute() throws MojoExecutionException {
     try {
-      ObjectMapper mapper = new ObjectMapper();
-      String json = mapper.writeValueAsString(getPayload());
-
-      //
-      HttpEntityEnclosingRequestBase req = createHttpRequest();
-      req.addHeader("consumer_key", consumerKey);
-      req.addHeader("consumer_token", consumerToken);
-      req.addHeader("Content-Type", "application/json");
-      req.addHeader("Accept", "application/json");
-      req.setEntity(new StringEntity(json));
-
-      //
-      CloseableHttpClient client = HttpClientBuilder.create().build();
-      CloseableHttpResponse resp = client.execute(req);
+      HttpResponse resp = execCall(getPayload(), createHttpRequest());
       int statusCode = resp.getStatusLine().getStatusCode();
-      try(InputStream in = resp.getEntity().getContent()) {
-        Map<String, ?> sdkmanResp = (Map<String, ?>) mapper.readValue(in, Map.class);
-        for (Map.Entry<String, ?> prop : sdkmanResp.entrySet()) {
-          System.out.println(prop.getKey() + ":" + prop.getValue());
-        }
-      }
       if (statusCode < 200 || statusCode >= 300) {
-        throw new Exception("Server returned error " + resp.getStatusLine());
+        throw new IllegalStateException("Server returned error " + resp.getStatusLine());
       }
     } catch (Exception e) {
-      throw new MojoExecutionException("Release failed", e);
+      throw new MojoExecutionException("Sdk vendor operation failed", e);
     }
+  }
+
+  protected HttpResponse execCall(Map<String, String> payload, HttpEntityEnclosingRequestBase req) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(payload);
+
+    req.addHeader("Consumer-Key", consumerKey);
+    req.addHeader("Consumer-Token", consumerToken);
+    req.addHeader("Content-Type", "application/json");
+    req.addHeader("Accept", "application/json");
+    req.setEntity(new StringEntity(json));
+
+    CloseableHttpClient client = HttpClientBuilder.create().build();
+    CloseableHttpResponse resp = client.execute(req);
+    try(InputStream in = resp.getEntity().getContent()) {
+      Map<String, ?> sdkmanResp = (Map<String, ?>) mapper.readValue(in, Map.class);
+      for (Map.Entry<String, ?> prop : sdkmanResp.entrySet()) {
+        getLog().debug(prop.getKey() + ":" + prop.getValue());
+      }
+    }
+    return resp;
   }
 }

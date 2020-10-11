@@ -14,31 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static io.sdkman.maven.infra.ApiEndpoints.ANNOUNCE_ENDPOINT;
 import static io.sdkman.maven.infra.ApiEndpoints.RELEASE_ENDPOINT;
 
 /**
- * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
+ * @author Andres Almiray
  */
-@Mojo(name = "release")
-public class ReleaseMojo extends BaseMojo {
+@Mojo(name = "minor-release")
+public class MinorMojo extends BaseMojo {
+
+  @Parameter(property = "sdkman.hashtag", required = true)
+  protected String hashtag;
 
   @Parameter(property = "sdkman.url")
   protected String url;
 
   @Parameter(property = "sdkman.platforms")
   protected Map<String, String> platforms;
-
-  @Override
-  protected Map<String, String> getPayload() {
-    // url is required if platforms is empty
-    if ((platforms == null || platforms.isEmpty()) && (url == null || url.isEmpty())) {
-      throw new IllegalArgumentException("Missing url");
-    }
-
-    Map<String, String> payload = super.getPayload();
-    payload.put("url", url);
-    return payload;
-  }
 
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() {
@@ -52,28 +44,31 @@ public class ReleaseMojo extends BaseMojo {
   @Override
   public void execute() throws MojoExecutionException {
     try {
-      HttpResponse resp = executeRelease();
+      HttpResponse resp = executeMajorRelease();
       int statusCode = resp.getStatusLine().getStatusCode();
       if (statusCode < 200 || statusCode >= 300) {
         throw new IllegalStateException("Server returned error " + resp.getStatusLine());
       }
     } catch (Exception e) {
-      throw new MojoExecutionException("Sdk release failed", e);
+      throw new MojoExecutionException("Sdk minor release failed", e);
     }
   }
 
-  protected HttpResponse executeRelease() throws IOException {
+  protected HttpResponse executeMajorRelease() throws IOException {
+    List<HttpResponse> responses = new ArrayList<>();
+
     if (platforms == null || platforms.isEmpty()) {
-      return execCall(getPayload(), createHttpRequest());
+       responses.add(execCall(getReleasePayload(), createHttpRequest()));
+    } else {
+      for (Map.Entry<String, String> platform : platforms.entrySet()) {
+        Map<String, String> payload = super.getPayload();
+        payload.put("platform", platform.getKey());
+        payload.put("url", platform.getValue());
+        responses.add(execCall(payload, createHttpRequest()));
+      }
     }
 
-    List<HttpResponse> responses = new ArrayList<>();
-    for (Map.Entry<String, String> platform : platforms.entrySet()) {
-      Map<String, String> payload = super.getPayload();
-      payload.put("platform", platform.getKey());
-      payload.put("url", platform.getValue());
-      responses.add(execCall(payload, createHttpRequest()));
-    }
+    responses.add(execCall(getAnnouncePayload(), createAnnounceHttpRequest()));
 
     return responses.stream()
         .filter(resp -> {
@@ -82,5 +77,25 @@ public class ReleaseMojo extends BaseMojo {
         })
         .findFirst()
         .orElse(responses.get(responses.size() - 1));
+  }
+
+  protected Map<String, String> getAnnouncePayload() {
+    Map<String, String> payload = super.getPayload();
+    payload.put("hashtag", hashtag);
+    return payload;
+  }
+
+  protected Map<String, String> getReleasePayload() {
+    Map<String, String> payload = super.getPayload();
+    payload.put("url", url);
+    return payload;
+  }
+
+  protected HttpEntityEnclosingRequestBase createAnnounceHttpRequest() {
+    try {
+      return new HttpPost(new URI("https", apiHost, ANNOUNCE_ENDPOINT, null));
+    } catch (URISyntaxException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 }
