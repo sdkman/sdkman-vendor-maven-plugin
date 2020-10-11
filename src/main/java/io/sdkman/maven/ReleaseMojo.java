@@ -17,14 +17,34 @@ import java.util.Map;
 import static io.sdkman.maven.infra.ApiEndpoints.RELEASE_ENDPOINT;
 
 /**
+ * Release a candidate.
+ *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 @Mojo(name = "release")
 public class ReleaseMojo extends BaseMojo {
 
+  /** The URL from where the candidate version can be downloaded */
   @Parameter(property = "sdkman.url")
   protected String url;
 
+  /**
+   * Platorm to downlodable URL mappings.
+   * Supported platforms are:
+   * <ul>
+   * <li>MAC_OSX</li>
+   * <li>WINDOWS_64</li>
+   * <li>LINUX_64</li>
+   * <li>LINUX_32</li>
+   *
+   * Example:
+   * <pre>
+   *     "MAC_OSX"   :"https://host/micronaut-x.y.z-macosx.zip"
+   *     "LINUX_64"  :"https://host/micronaut-x.y.z-linux64.zip"
+   *     "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip"
+   * </pre>
+   * </ul>
+   */
   @Parameter(property = "sdkman.platforms")
   protected Map<String, String> platforms;
 
@@ -50,7 +70,7 @@ public class ReleaseMojo extends BaseMojo {
   }
 
   @Override
-  public void execute() throws MojoExecutionException {
+  protected void doExecute() throws MojoExecutionException {
     try {
       HttpResponse resp = executeRelease();
       int statusCode = resp.getStatusLine().getStatusCode();

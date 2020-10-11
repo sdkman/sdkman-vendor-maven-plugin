@@ -10,6 +10,8 @@ import java.net.URISyntaxException;
 import static io.sdkman.maven.infra.ApiEndpoints.DEFAULT_ENDPOINT;
 
 /**
+ * Mark a version as default.
+ *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 @Mojo(name = "default")

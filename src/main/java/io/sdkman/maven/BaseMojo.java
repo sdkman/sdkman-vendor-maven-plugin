@@ -22,20 +22,29 @@ import java.util.Map;
  */
 public abstract class BaseMojo extends AbstractMojo {
 
+  /** The SDK consumer key */
   @Parameter(property = "sdkman.consumer.key", required = true)
   protected String consumerKey;
 
+  /** The SDK consumer token */
   @Parameter(property = "sdkman.consumer.token", required = true)
   protected String consumerToken;
 
+  /** candidate identifier */
   @Parameter(property = "sdkman.candidate", required = true)
   protected String candidate;
 
+  /** candidate version */
   @Parameter(property = "sdkman.version", required = true)
   protected String version;
 
+  /** SDK service hostname */
   @Parameter(property = "sdkman.api.host", defaultValue = "vendors.sdkman.io")
   protected String apiHost;
+
+  /** Skip this execution */
+  @Parameter(property = "sdkman.skip")
+  private boolean skip;
 
   protected Map<String, String> getPayload() {
     Map<String, String> payload = new HashMap<>();
@@ -47,7 +56,15 @@ public abstract class BaseMojo extends AbstractMojo {
   protected abstract HttpEntityEnclosingRequestBase createHttpRequest();
 
   @Override
-  public void execute() throws MojoExecutionException {
+  public final void execute() throws MojoExecutionException {
+    if (skip) {
+      getLog().info("Skipping plugin execution");
+      return;
+    }
+    doExecute();
+  }
+
+  protected void doExecute() throws MojoExecutionException {
     try {
       HttpResponse resp = execCall(getPayload(), createHttpRequest());
       int statusCode = resp.getStatusLine().getStatusCode();

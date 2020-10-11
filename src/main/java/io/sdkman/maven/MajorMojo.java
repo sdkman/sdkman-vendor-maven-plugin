@@ -20,6 +20,8 @@ import static io.sdkman.maven.infra.ApiEndpoints.DEFAULT_ENDPOINT;
 import static io.sdkman.maven.infra.ApiEndpoints.RELEASE_ENDPOINT;
 
 /**
+ * Release, announce, and make default.
+ *
  * @author Andres Almiray
  */
 @Mojo(name = "major-release")
@@ -44,7 +46,7 @@ public class MajorMojo extends BaseMojo {
   }
 
   @Override
-  public void execute() throws MojoExecutionException {
+  protected void doExecute() throws MojoExecutionException {
     try {
       HttpResponse resp = executeMajorRelease();
       int statusCode = resp.getStatusLine().getStatusCode();

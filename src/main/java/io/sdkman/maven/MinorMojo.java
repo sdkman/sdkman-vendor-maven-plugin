@@ -18,6 +18,8 @@ import static io.sdkman.maven.infra.ApiEndpoints.ANNOUNCE_ENDPOINT;
 import static io.sdkman.maven.infra.ApiEndpoints.RELEASE_ENDPOINT;
 
 /**
+ * Release and announce.
+ *
  * @author Andres Almiray
  */
 @Mojo(name = "minor-release")
@@ -42,7 +44,7 @@ public class MinorMojo extends BaseMojo {
   }
 
   @Override
-  public void execute() throws MojoExecutionException {
+  protected void doExecute() throws MojoExecutionException {
     try {
       HttpResponse resp = executeMajorRelease();
       int statusCode = resp.getStatusLine().getStatusCode();

@@ -12,11 +12,14 @@ import java.util.Map;
 import static io.sdkman.maven.infra.ApiEndpoints.ANNOUNCE_ENDPOINT;
 
 /**
+ * Posts an announcment
+ *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
 @Mojo(name = "announce")
 public class AnnounceMojo extends BaseMojo {
 
+  /** the hashtag to use */
   @Parameter(property = "sdkman.hashtag", required = true)
   protected String hashtag;
 
