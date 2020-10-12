@@ -8,7 +8,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class MinorMojo extends BaseMojo {
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() {
     try {
-      return new HttpPost(new URI("https", apiHost, RELEASE_ENDPOINT, null));
+      return new HttpPost(createURI(RELEASE_ENDPOINT));
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
     }
@@ -95,7 +94,7 @@ public class MinorMojo extends BaseMojo {
 
   protected HttpEntityEnclosingRequestBase createAnnounceHttpRequest() {
     try {
-      return new HttpPost(new URI("https", apiHost, ANNOUNCE_ENDPOINT, null));
+      return new HttpPost(createURI(ANNOUNCE_ENDPOINT));
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
     }

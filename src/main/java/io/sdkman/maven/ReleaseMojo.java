@@ -8,7 +8,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class ReleaseMojo extends BaseMojo {
   protected String url;
 
   /**
-   * Platform to downlodable URL mappings.
+   * Platform to downloable URL mappings.
    * Supported platforms are:
    * <ul>
    * <li>MAC_OSX</li>
@@ -62,7 +61,7 @@ public class ReleaseMojo extends BaseMojo {
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() {
     try {
-      return new HttpPost(new URI("https", apiHost, RELEASE_ENDPOINT, null));
+      return new HttpPost(createURI(RELEASE_ENDPOINT));
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
     }

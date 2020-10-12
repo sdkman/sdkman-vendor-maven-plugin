@@ -5,7 +5,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class AnnounceMojo extends BaseMojo {
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() {
     try {
-      return new HttpPost(new URI("https", apiHost, ANNOUNCE_ENDPOINT, null));
+      return new HttpPost(createURI(ANNOUNCE_ENDPOINT));
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
     }

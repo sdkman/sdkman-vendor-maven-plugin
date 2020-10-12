@@ -311,14 +311,9 @@
   <profiles>
     <profile>
       <id>it</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>!true</value>
-        </property>
-      </activation>
       <build>
         <plugins>
+          <!--
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>mrm-maven-plugin</artifactId>
@@ -335,6 +330,7 @@
               <propertyName>repository.proxy.url</propertyName>
             </configuration>
           </plugin>
+          -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
@@ -349,9 +345,15 @@
               <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
               <settingsFile>src/it/settings.xml</settingsFile>
               <streamLogs>true</streamLogs>
+              <goals>
+                <goal>verify</goal>
+              </goals>
+
+              <!--
               <filterProperties>
                 <repository.proxy.url>${repository.proxy.url}</repository.proxy.url>
               </filterProperties>
+              -->
             </configuration>
             <dependencies>
               <dependency>

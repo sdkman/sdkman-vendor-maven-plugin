@@ -1,16 +1,18 @@
-## Maven Plugin for SDKMAN!
+= Maven Plugin for SDKMAN!
+:project-version: 2.0.0-SNAPSHOT
 
-The [SDKMAN!](http://sdkman.io) Maven Plugin.
+The link:http://sdkman.io[SDKMAN!] Maven Plugin.
 
-### Release a new Candidate Version
+== Release a new Candidate Version
 
 Usage in a `pom.xml`:
 
-```
+[source,xml,subs="attributes,verbatim"]
+----
 <plugin>
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>{project-version}</version>
   <execution>
     <goals>
       <goal>release</goal>
@@ -24,7 +26,7 @@ Usage in a `pom.xml`:
     </configuration>
   </execution>
 </plugin>
-```
+----
 
 The `consumerKey` and `consumerToken` could also be specified in the `configuration` tag but these should not be there. These
 values have corresponding properties that should be used from the command line or configured in the `settings.xml`.
@@ -33,25 +35,27 @@ The `apiHost` specifies the SDKMAN! server to use, the default value is _vendors
 
 Usage from command line:
 
-```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:release \ 
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:release \ 
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
     -Dsdkman.version=${my_version} \
     -Dsdkman.url=${my_url}
-```
+----
 
-### Set existing Version as Default for Candidate
+== Set existing Version as Default for Candidate
 
 Usage in a `pom.xml`:
 
-```
+[source,xml,subs="attributes,verbatim"]
+----
 <plugin>
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>{project-version}</version>
   <execution>
     <goals>
       <goal>default</goal>
@@ -64,28 +68,30 @@ Usage in a `pom.xml`:
     </configuration>
   </execution>
 </plugin>
-```
+----
 
 Usage from command line:
 
-```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:default \ 
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:default \ 
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
     -Dsdkman.version=${my_version}
-```
+----
 
-### Broadcast a Structured Message
+== Broadcast a Structured Message
 
 Usage in a `pom.xml`:
 
-```
+[source,xml,subs="attributes,verbatim"]
+----
 <plugin>
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>{project-version}</version>
   <execution>
     <goals>
       <goal>announce</goal>
@@ -99,58 +105,105 @@ Usage in a `pom.xml`:
     </configuration>
   </execution>
 </plugin>
-```
+----
 
 Usage from command line:
 
-```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:announce \ 
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:announce \ 
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
     -Dsdkman.candidate=${my_candidate} \
     -Dsdkman.version=${my_version} \
     -Dsdkman.hashtag=${my_hashtag}
-```
+----
 
-### Broadcast a Freeform Message
+== Publish a Minor Release
 
-Usage in a `pom.xml`:
+This is a convenience goal for issuing a release plus an announcement
 
-```
+[source,xml,subs="attributes,verbatim"]
+----
 <plugin>
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>{project-version}</version>
   <execution>
     <goals>
-      <goal>announce</goal>
+      <goal>minor-release</goal>
     </goals>
     <phase>deploy</phase>
     <configuration>
       <apiHost>the-api-host</apiHost>
-      <text>the-text</text>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <url>the-url</url>
+      <hashtag>the-hashtag</hashtag>
     </configuration>
   </execution>
 </plugin>
-```
+----
 
-Usage from command line:
-
-```
-mvn -e io.sdkman:sdkman-maven-plugin:1.0-SNAPSHOT:announce \ 
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:minor-release \
     -Dsdkman.api.host=${api_host} \
     -Dsdkman.consumer.key=${my_key} \
     -Dsdkman.consumer.token=${my_token} \
-    -Dsdkman.text=${my_text}
-```
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.url=${my_url} \
+    -Dsdkman.hashtag=${my_hashtag}
+----
 
-## External configuration
+== Publish a Major Release
+
+This is a convenience goal for issuing a release, announcement, and setting the default version.
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>major-release</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <url>the-url</url>
+      <hashtag>the-hashtag</hashtag>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:major-release \
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.url=${my_url} \
+    -Dsdkman.hashtag=${my_hashtag}
+----
+
+== External configuration
 
 The consumer key/token and the api host can be specified in the _settings.xml_ Maven configuration, most likely with
 a profile to activate when necessary:
 
-```
+.~/.m2/repository/settings.xml
+[source,xml,subs="attributes,verbatim"]
+----
 <profiles>
   <id>sdkman</id>
   <profile>
@@ -159,6 +212,6 @@ a profile to activate when necessary:
     <sdkman.consumer.token>my-token</sdkman.consumer.token>
   </profile>
 </profiles>
-```
+----
 
 It can be used activating the _sdkman_ profile.

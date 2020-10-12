@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "/default",
+    "headers": {
+      "Content-Type": {
+        "matches": "application/json"
+      },
+      "Accept": {
+        "matches": "application/json"
+      },
+      "Consumer-Key": {
+        "matches": "SOME_KEY"
+      },
+      "Consumer-Token": {
+        "matches": "SOME_TOKEN"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "candidate": "it",
+          "version": "1.0.0-SNAPSHOT"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Accepts": "application/json",
+      "Consumer-Key": "SOME_KEY",
+      "Consumer-Token": "SOME_TOKEN"
+    },
+    "body": "{\"message\":\"success\"}"
+  }
+}

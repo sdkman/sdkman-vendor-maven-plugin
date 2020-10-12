@@ -9,11 +9,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,10 @@ public abstract class BaseMojo extends AbstractMojo {
   @Parameter(property = "sdkman.api.host", defaultValue = "vendors.sdkman.io")
   protected String apiHost;
 
+  /** Use HTTPS */
+  @Parameter(property = "sdkman.use.https", defaultValue = "true")
+  protected boolean https;
+
   /** Skip this execution */
   @Parameter(property = "sdkman.skip")
   private boolean skip;
@@ -62,6 +67,7 @@ public abstract class BaseMojo extends AbstractMojo {
       return;
     }
     doExecute();
+    getLog().info("Sdk vendor operation successful");
   }
 
   protected void doExecute() throws MojoExecutionException {
@@ -80,6 +86,9 @@ public abstract class BaseMojo extends AbstractMojo {
     ObjectMapper mapper = new ObjectMapper();
     String json = mapper.writeValueAsString(payload);
 
+    getLog().info(req.getURI().toString());
+    getLog().info(json);
+
     req.addHeader("Consumer-Key", consumerKey);
     req.addHeader("Consumer-Token", consumerToken);
     req.addHeader("Content-Type", "application/json");
@@ -95,5 +104,16 @@ public abstract class BaseMojo extends AbstractMojo {
       }
     }
     return resp;
+  }
+
+  protected URI createURI(String endpoint) throws URISyntaxException {
+    String[] parts = apiHost.split(":");
+    if (parts.length == 1) {
+      return new URI(https ? "https" : "http", apiHost, endpoint, null);
+    } else if (parts.length == 2) {
+      return new URI(https ? "https" : "http", null, parts[0], Integer.parseInt(parts[1]), endpoint, null, null);
+    } else {
+      throw new URISyntaxException(apiHost, "Invalid");
+    }
   }
 }
