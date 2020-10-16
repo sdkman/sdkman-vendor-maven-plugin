@@ -26,14 +26,36 @@ import static io.sdkman.maven.infra.ApiEndpoints.RELEASE_ENDPOINT;
 @Mojo(name = "major-release")
 public class MajorMojo extends BaseMojo {
 
-  @Parameter(property = "sdkman.hashtag", required = true)
+  /** The hashtag to use (legacy) */
+  @Parameter(property = "sdkman.hashtag")
   protected String hashtag;
 
+  /** The URL from where the candidate version can be downloaded */
   @Parameter(property = "sdkman.url")
   protected String url;
 
+  /**
+   * Platform to downloable URL mappings.
+   * Supported platforms are:
+   * <ul>
+   * <li>MAC_OSX</li>
+   * <li>WINDOWS_64</li>
+   * <li>LINUX_64</li>
+   * <li>LINUX_32</li>
+   * </ul>
+   * Example:
+   * <pre>
+   *     "MAC_OSX"   :"https://host/micronaut-x.y.z-macosx.zip"
+   *     "LINUX_64"  :"https://host/micronaut-x.y.z-linux64.zip"
+   *     "WINDOWS_64":"https://host/micronaut-x.y.z-win.zip"
+   * </pre>
+   */
   @Parameter(property = "sdkman.platforms")
   protected Map<String, String> platforms;
+
+  /** The URL where the release notes can be found */
+  @Parameter(property = "sdkman.release.notes.url")
+  protected String releaseNotesUrl;
 
   @Override
   protected HttpEntityEnclosingRequestBase createHttpRequest() {
@@ -85,7 +107,8 @@ public class MajorMojo extends BaseMojo {
 
   protected Map<String, String> getAnnouncePayload() {
     Map<String, String> payload = super.getPayload();
-    payload.put("hashtag", hashtag);
+    if (hashtag != null && !hashtag.isEmpty()) payload.put("hashtag", hashtag);
+    if (releaseNotesUrl != null && !releaseNotesUrl.isEmpty()) payload.put("url", releaseNotesUrl);
     return payload;
   }
 

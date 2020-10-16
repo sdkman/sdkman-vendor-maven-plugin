@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.sdkman.it</groupId>
-    <artifactId>announce</artifactId>
+    <artifactId>announce-legacy</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <description>Post an announcement</description>
+    <description>Post an announcement (legacy)</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,7 +33,7 @@
                             <https>false</https>
                             <candidate>it</candidate>
                             <version>1.0.0-SNAPSHOT</version>
-                            <releaseNotesUrl>https://host/it-1.0.0-SNAPSHOT.zip</releaseNotesUrl>
+                            <hashtag>it</hashtag>
                         </configuration>
                     </execution>
                 </executions>

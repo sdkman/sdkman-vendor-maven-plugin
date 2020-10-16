@@ -18,14 +18,19 @@ import static io.sdkman.maven.infra.ApiEndpoints.ANNOUNCE_ENDPOINT;
 @Mojo(name = "announce")
 public class AnnounceMojo extends BaseMojo {
 
-  /** the hashtag to use */
-  @Parameter(property = "sdkman.hashtag", required = true)
+  /** The hashtag to use (legacy) */
+  @Parameter(property = "sdkman.hashtag")
   protected String hashtag;
+
+  /** The URL where the release notes can be found */
+  @Parameter(property = "sdkman.release.notes.url")
+  protected String releaseNotesUrl;
 
   @Override
   protected Map<String, String> getPayload() {
     Map<String, String> payload = super.getPayload();
-    payload.put("hashtag", hashtag);
+    if (hashtag != null && !hashtag.isEmpty()) payload.put("hashtag", hashtag);
+    if (releaseNotesUrl != null && !releaseNotesUrl.isEmpty()) payload.put("url", releaseNotesUrl);
     return payload;
   }
 

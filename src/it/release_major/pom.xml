@@ -33,10 +33,10 @@
                             <https>false</https>
                             <candidate>it</candidate>
                             <version>1.0.0-SNAPSHOT</version>
-                            <hashtag>it</hashtag>
                             <platforms>
                                     <UNIVERSAL>https://host/it-1.0.0-SNAPSHOT.zip</UNIVERSAL>
                             </platforms>
+                            <releaseNotesUrl>https://host/it-1.0.0-SNAPSHOT.zip</releaseNotesUrl>
                         </configuration>
                     </execution>
                 </executions>

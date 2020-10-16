@@ -34,7 +34,7 @@
                             <candidate>it</candidate>
                             <version>1.0.0-SNAPSHOT</version>
                             <url>https://host/it-1.0.0-SNAPSHOT.zip</url>
-                            <hashtag>it</hashtag>
+                            <releaseNotesUrl>https://host/it-1.0.0-SNAPSHOT.zip</releaseNotesUrl>
                         </configuration>
                     </execution>
                 </executions>
