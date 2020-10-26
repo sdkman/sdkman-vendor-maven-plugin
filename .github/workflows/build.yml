@@ -28,4 +28,4 @@ jobs:
       - name: Build
         run: |
           chmod +x mvnw
-          ./mvnw -B verify --file pom.xml
+          ./mvnw -Pit -B verify --file pom.xml
