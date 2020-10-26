@@ -1,5 +1,14 @@
 = Maven Plugin for SDKMAN!
-:project-version: 2.0.0-SNAPSHOT
+:project-owner:      aalmiray
+:project-name:       sdkman-vendor-maven-plugin
+:project-groupId:    io.sdkman
+:project-artifactId: sdkman-maven-plugin
+:project-version:    2.0.0-SNAPSHOT
+
+image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
+image:https://img.shields.io/maven-central/v/{project-groupId}/{project-artifactId}.svg[Download, link="https://search.maven.org/#search|ga|1|{project-artifactId}"]
+
+---
 
 The link:http://sdkman.io[SDKMAN!] Maven Plugin.
 
