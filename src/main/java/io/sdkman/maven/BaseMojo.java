@@ -92,7 +92,7 @@ public abstract class BaseMojo extends AbstractMojo {
     req.addHeader("Consumer-Key", consumerKey);
     req.addHeader("Consumer-Token", consumerToken);
     req.addHeader("Content-Type", "application/json");
-    req.addHeader("Accepts", "application/json");
+    req.addHeader("Accept", "application/json");
     req.setEntity(new StringEntity(json));
 
     CloseableHttpClient client = HttpClientBuilder.create().build();
