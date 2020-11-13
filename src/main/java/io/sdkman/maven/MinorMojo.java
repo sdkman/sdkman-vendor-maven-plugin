@@ -111,6 +111,7 @@ public class MinorMojo extends BaseMojo {
 
   protected Map<String, String> getReleasePayload() {
     Map<String, String> payload = super.getPayload();
+    payload.put("platform", "UNIVERSAL");
     payload.put("url", url);
     return payload;
   }

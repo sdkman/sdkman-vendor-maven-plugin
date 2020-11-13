@@ -21,6 +21,7 @@
         "equalToJson": {
           "candidate": "it",
           "version": "1.0.0-SNAPSHOT",
+          "platform" : "UNIVERSAL",
           "url": "https://host/it-1.0.0-SNAPSHOT.zip"
         }
       }

@@ -54,6 +54,7 @@ public class ReleaseMojo extends BaseMojo {
     }
 
     Map<String, String> payload = super.getPayload();
+    payload.put("platform", "UNIVERSAL");
     payload.put("url", url);
     return payload;
   }
