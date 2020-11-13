@@ -6,7 +6,7 @@
       "Content-Type": {
         "matches": "application/json"
       },
-      "Accept": {
+      "Accepts": {
         "matches": "application/json"
       },
       "Consumer-Key": {

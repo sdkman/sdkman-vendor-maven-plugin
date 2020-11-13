@@ -92,7 +92,7 @@ public abstract class BaseMojo extends AbstractMojo {
     req.addHeader("Consumer-Key", consumerKey);
     req.addHeader("Consumer-Token", consumerToken);
     req.addHeader("Content-Type", "application/json");
-    req.addHeader("Accept", "application/json");
+    req.addHeader("Accepts", "application/json");
     req.setEntity(new StringEntity(json));
 
     CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -107,9 +107,15 @@ public abstract class BaseMojo extends AbstractMojo {
   }
 
   protected URI createURI(String endpoint) throws URISyntaxException {
-    String[] parts = apiHost.split(":");
+    String host = apiHost;
+    int i = host.indexOf("://");
+    if (i > -1) {
+      host = host.substring(i + 3);
+    }
+
+    String[] parts = host.split(":");
     if (parts.length == 1) {
-      return new URI(https ? "https" : "http", apiHost, endpoint, null);
+      return new URI(https ? "https" : "http", host, endpoint, null);
     } else if (parts.length == 2) {
       return new URI(https ? "https" : "http", null, parts[0], Integer.parseInt(parts[1]), endpoint, null, null);
     } else {

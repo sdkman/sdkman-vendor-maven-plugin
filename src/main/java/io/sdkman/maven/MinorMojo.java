@@ -67,7 +67,7 @@ public class MinorMojo extends BaseMojo {
   @Override
   protected void doExecute() throws MojoExecutionException {
     try {
-      HttpResponse resp = executeMajorRelease();
+      HttpResponse resp = executeMinorRelease();
       int statusCode = resp.getStatusLine().getStatusCode();
       if (statusCode < 200 || statusCode >= 300) {
         throw new IllegalStateException("Server returned error " + resp.getStatusLine());
@@ -77,7 +77,7 @@ public class MinorMojo extends BaseMojo {
     }
   }
 
-  protected HttpResponse executeMajorRelease() throws IOException {
+  protected HttpResponse executeMinorRelease() throws IOException {
     List<HttpResponse> responses = new ArrayList<>();
 
     if (platforms == null || platforms.isEmpty()) {
