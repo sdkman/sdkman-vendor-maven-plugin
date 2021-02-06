@@ -1,0 +1,226 @@
+= Maven Plugin for SDKMAN!
+:project-owner:      aalmiray
+:project-name:       sdkman-vendor-maven-plugin
+:project-groupId:    io.sdkman
+:project-artifactId: sdkman-maven-plugin
+:project-version:    2.0.0-SNAPSHOT
+
+image:https://github.com/{project-owner}/{project-name}/workflows/Build/badge.svg["Build Status", link="https://github.com/{project-owner}/{project-name}/actions"]
+image:https://img.shields.io/maven-central/v/{project-groupId}/{project-artifactId}.svg[Download, link="https://search.maven.org/#search|ga|1|{project-artifactId}"]
+
+---
+
+The link:http://sdkman.io[SDKMAN!] Maven Plugin.
+
+== Release a new Candidate Version
+
+Usage in a `pom.xml`:
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>release</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <url>the-url</url>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+The `consumerKey` and `consumerToken` could also be specified in the `configuration` tag but these should not be there. These
+values have corresponding properties that should be used from the command line or configured in the `settings.xml`.
+
+The `apiHost` specifies the SDKMAN! server to use, the default value is _vendors.sdkman.io_.
+
+Usage from command line:
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:release \ 
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.url=${my_url}
+----
+
+== Set existing Version as Default for Candidate
+
+Usage in a `pom.xml`:
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>default</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+Usage from command line:
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:default \ 
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version}
+----
+
+== Broadcast a Structured Message
+
+Usage in a `pom.xml`:
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>announce</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+Usage from command line:
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:announce \ 
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.sdkman.release.notes.url=${my_release_notes_url}
+----
+
+== Publish a Minor Release
+
+This is a convenience goal for issuing a release plus an announcement
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>minor-release</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <url>the-url</url>
+      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:minor-release \
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.url=${my_url} \
+    -Dsdkman.sdkman.release.notes.url=${my_release_notes_url}
+----
+
+== Publish a Major Release
+
+This is a convenience goal for issuing a release, announcement, and setting the default version.
+
+[source,xml,subs="attributes,verbatim"]
+----
+<plugin>
+  <groupId>io.sdkman</groupId>
+  <artifactId>sdkman-maven-plugin</artifactId>
+  <version>{project-version}</version>
+  <execution>
+    <goals>
+      <goal>major-release</goal>
+    </goals>
+    <phase>deploy</phase>
+    <configuration>
+      <apiHost>the-api-host</apiHost>
+      <candidate>the-candidate</candidate>
+      <version>the-version</version>
+      <url>the-url</url>
+      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+    </configuration>
+  </execution>
+</plugin>
+----
+
+[source,subs="attributes,verbatim"]
+----
+mvn -e io.sdkman:sdkman-maven-plugin:{project-version}:major-release \
+    -Dsdkman.api.host=${api_host} \
+    -Dsdkman.consumer.key=${my_key} \
+    -Dsdkman.consumer.token=${my_token} \
+    -Dsdkman.candidate=${my_candidate} \
+    -Dsdkman.version=${my_version} \
+    -Dsdkman.url=${my_url} \
+    -Dsdkman.sdkman.release.notes.url=${my_release_notes_url}
+----
+
+== External configuration
+
+The consumer key/token and the api host can be specified in the _settings.xml_ Maven configuration, most likely with
+a profile to activate when necessary:
+
+.~/.m2/repository/settings.xml
+[source,xml,subs="attributes,verbatim"]
+----
+<profiles>
+  <id>sdkman</id>
+  <profile>
+    <sdkman.api.host>the-api-host</sdkman.api.host>
+    <sdkman.consumer.key>my-key</sdkman.consumer.key>
+    <sdkman.consumer.token>my-token</sdkman.consumer.token>
+  </profile>
+</profiles>
+----
+
+It can be used activating the _sdkman_ profile.

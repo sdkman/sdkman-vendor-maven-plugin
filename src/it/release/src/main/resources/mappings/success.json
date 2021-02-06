@@ -1,0 +1,40 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/release",
+    "headers": {
+      "Content-Type": {
+        "matches": "application/json"
+      },
+      "Accept": {
+        "matches": "application/json"
+      },
+      "Consumer-Key": {
+        "matches": "SOME_KEY"
+      },
+      "Consumer-Token": {
+        "matches": "SOME_TOKEN"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "candidate": "it",
+          "version": "1.0.0-SNAPSHOT",
+          "platform" : "UNIVERSAL",
+          "url": "https://host/it-1.0.0-SNAPSHOT.zip"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Consumer-Key": "SOME_KEY",
+      "Consumer-Token": "SOME_TOKEN"
+    },
+    "body": "{\"message\":\"success\"}"
+  }
+}
