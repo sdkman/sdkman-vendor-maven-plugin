@@ -5,7 +5,7 @@
 
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0</version>
   <packaging>maven-plugin</packaging>
 
   <name>SDKMAN! Maven Plugin</name>
@@ -41,6 +41,7 @@
     <connection>scm:git:git@github.com:sdkman/sdkman-maven-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/sdkman/sdkman-maven-plugin.git</developerConnection>
     <url>git@github.com:sdkman/sdkman-maven-plugin.git</url>
+    <tag>v2.0.0</tag>
   </scm>
 
   <developers>
@@ -482,8 +483,8 @@
                 <phase>generate-sources</phase>
                 <configuration>
                   <target>
-                    <mkdir dir="${local.repository.path}/snapshot"/>
-                    <mkdir dir="${local.repository.path}/release"/>
+                    <mkdir dir="${local.repository.path}/snapshot" />
+                    <mkdir dir="${local.repository.path}/release" />
                   </target>
                 </configuration>
                 <goals>
