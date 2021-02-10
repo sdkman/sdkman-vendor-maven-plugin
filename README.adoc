@@ -22,18 +22,20 @@ Usage in a `pom.xml`:
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
   <version>{project-version}</version>
-  <execution>
-    <goals>
-      <goal>release</goal>
-    </goals>
-    <phase>deploy</phase>
-    <configuration>
-      <apiHost>the-api-host</apiHost>
-      <candidate>the-candidate</candidate>
-      <version>the-version</version>
-      <url>the-url</url>
-    </configuration>
-  </execution>
+  <executions>
+    <execution>
+      <goals>
+        <goal>release</goal>
+      </goals>
+      <phase>deploy</phase>
+      <configuration>
+        <apiHost>the-api-host</apiHost>
+        <candidate>the-candidate</candidate>
+        <version>the-version</version>
+        <url>the-url</url>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
@@ -65,17 +67,19 @@ Usage in a `pom.xml`:
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
   <version>{project-version}</version>
-  <execution>
-    <goals>
-      <goal>default</goal>
-    </goals>
-    <phase>deploy</phase>
-    <configuration>
-      <apiHost>the-api-host</apiHost>
-      <candidate>the-candidate</candidate>
-      <version>the-version</version>
-    </configuration>
-  </execution>
+  <executions>
+    <execution>
+      <goals>
+        <goal>default</goal>
+      </goals>
+      <phase>deploy</phase>
+      <configuration>
+        <apiHost>the-api-host</apiHost>
+        <candidate>the-candidate</candidate>
+        <version>the-version</version>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
@@ -101,18 +105,20 @@ Usage in a `pom.xml`:
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
   <version>{project-version}</version>
-  <execution>
-    <goals>
-      <goal>announce</goal>
-    </goals>
-    <phase>deploy</phase>
-    <configuration>
-      <apiHost>the-api-host</apiHost>
-      <candidate>the-candidate</candidate>
-      <version>the-version</version>
-      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
-    </configuration>
-  </execution>
+  <executions>
+    <execution>
+      <goals>
+        <goal>announce</goal>
+      </goals>
+      <phase>deploy</phase>
+      <configuration>
+        <apiHost>the-api-host</apiHost>
+        <candidate>the-candidate</candidate>
+        <version>the-version</version>
+        <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
@@ -139,19 +145,21 @@ This is a convenience goal for issuing a release plus an announcement
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
   <version>{project-version}</version>
-  <execution>
-    <goals>
-      <goal>minor-release</goal>
-    </goals>
-    <phase>deploy</phase>
-    <configuration>
-      <apiHost>the-api-host</apiHost>
-      <candidate>the-candidate</candidate>
-      <version>the-version</version>
-      <url>the-url</url>
-      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
-    </configuration>
-  </execution>
+  <executions>
+    <execution>
+      <goals>
+        <goal>minor-release</goal>
+      </goals>
+      <phase>deploy</phase>
+      <configuration>
+        <apiHost>the-api-host</apiHost>
+        <candidate>the-candidate</candidate>
+        <version>the-version</version>
+        <url>the-url</url>
+        <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
@@ -177,19 +185,21 @@ This is a convenience goal for issuing a release, announcement, and setting the 
   <groupId>io.sdkman</groupId>
   <artifactId>sdkman-maven-plugin</artifactId>
   <version>{project-version}</version>
-  <execution>
-    <goals>
-      <goal>major-release</goal>
-    </goals>
-    <phase>deploy</phase>
-    <configuration>
-      <apiHost>the-api-host</apiHost>
-      <candidate>the-candidate</candidate>
-      <version>the-version</version>
-      <url>the-url</url>
-      <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
-    </configuration>
-  </execution>
+  <executions>
+    <execution>
+      <goals>
+        <goal>major-release</goal>
+      </goals>
+      <phase>deploy</phase>
+      <configuration>
+        <apiHost>the-api-host</apiHost>
+        <candidate>the-candidate</candidate>
+        <version>the-version</version>
+        <url>the-url</url>
+        <releaseNotesUrl>my_release_notes_url</releaseNotesUrl>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
