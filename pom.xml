@@ -27,6 +27,7 @@
     <jackson.version>2.11.3</jackson.version>
     <local.repository.path>${project.build.directory}/repository</local.repository.path>
     <nexus.url>https://oss.sonatype.org</nexus.url>
+    <project.repo>sdkman/sdkman-vendor-maven-plugin</project.repo>
   </properties>
 
   <licenses>
@@ -38,9 +39,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:sdkman/sdkman-maven-plugin.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/sdkman/sdkman-maven-plugin.git</developerConnection>
-    <url>git@github.com:sdkman/sdkman-maven-plugin.git</url>
+    <connection>scm:git:git@github.com:${project.repo}.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/${project.repo}.git</developerConnection>
+    <url>git@github.com:${project.repo}.git</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -61,7 +62,7 @@
 
   <issueManagement>
     <system>github.com</system>
-    <url>https://github.com/sdkman/sdkman-maven-plugin/issues</url>
+    <url>https://github.com/${project.repo}/issues</url>
   </issueManagement>
 
   <distributionManagement>
