@@ -1,19 +1,3 @@
-#
-#  Copyright 2020 The ModiTect authors
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-#
-
 name: Release
 
 on:
@@ -64,19 +48,3 @@ jobs:
           git config user.name "${{ github.event.head_commit.committer.name }}"
           git config user.email "${{ github.event.head_commit.committer.email }}"
           mvn -B --file pom.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
-
-#      - name: Import GPG key
-#        env:
-#          GPG_SECRET_KEYS: ${{ secrets.GPG_SECRET_KEYS }}
-#        run: |
-#          echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
-#
-#      - name: Release
-#        env:
-#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-#        run: |
-#          git config user.name "${{ github.event.head_commit.committer.name }}"
-#          git config user.email "${{ github.event.head_commit.committer.email }}"
-#          ./mvnw -B --file pom.xml -s .mvn/release-settings.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git -Dgpg.passhrase=${GPG_PASSPHRASE} -Dcentral.username=${SONATYPE_USERNAME} -Dcentral.password=${SONATYPE_PASSWORD}
