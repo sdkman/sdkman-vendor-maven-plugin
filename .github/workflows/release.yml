@@ -45,18 +45,38 @@ jobs:
           chmod +x mvnw
           ./mvnw -Pit -B verify --file pom.xml
 
-      - name: Import GPG key
-        env:
-          GPG_SECRET_KEYS: ${{ secrets.GPG_SECRET_KEYS }}
-        run: |
-          echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
+      - name: Set up Maven Central
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Release
         env:
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           git config user.name "${{ github.event.head_commit.committer.name }}"
           git config user.email "${{ github.event.head_commit.committer.email }}"
-          ./mvnw -B --file pom.xml -s .mvn/release-settings.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git -Dgpg.passhrase=${GPG_PASSPHRASE} -Dcentral.username=${SONATYPE_USERNAME} -Dcentral.password=${SONATYPE_PASSWORD}
+          mvn -B --file pom.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+
+#      - name: Import GPG key
+#        env:
+#          GPG_SECRET_KEYS: ${{ secrets.GPG_SECRET_KEYS }}
+#        run: |
+#          echo $GPG_SECRET_KEYS | base64 --decode | gpg --import --no-tty --batch --yes
+#
+#      - name: Release
+#        env:
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#        run: |
+#          git config user.name "${{ github.event.head_commit.committer.name }}"
+#          git config user.email "${{ github.event.head_commit.committer.email }}"
+#          ./mvnw -B --file pom.xml -s .mvn/release-settings.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git -Dgpg.passhrase=${GPG_PASSPHRASE} -Dcentral.username=${SONATYPE_USERNAME} -Dcentral.password=${SONATYPE_PASSWORD}
