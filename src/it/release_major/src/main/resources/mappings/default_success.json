@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "PUT",
-    "url": "/default",
+    "url": "/candidates/default",
     "headers": {
       "Content-Type": {
         "matches": "application/json"
