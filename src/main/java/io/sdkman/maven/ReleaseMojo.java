@@ -31,10 +31,16 @@ public class ReleaseMojo extends BaseMojo {
    * Platform to downloable URL mappings.
    * Supported platforms are:
    * <ul>
-   * <li>MAC_OSX</li>
-   * <li>WINDOWS_64</li>
    * <li>LINUX_64</li>
    * <li>LINUX_32</li>
+   * <li>LINUX_ARM64</li>
+   * <li>LINUX_ARM32HF</li>
+   * <li>LINUX_ARM32SF</li>
+   * <li>LINUX_RISCV64</li>
+   * <li>MAC_OSX</li>
+   * <li>MAC_ARM64</li>
+   * <li>WINDOWS_64</li>
+   * <li>UNIVERSAL</li>
    * </ul>
    * Example:
    * <pre>
