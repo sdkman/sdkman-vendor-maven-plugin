@@ -16,11 +16,9 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          java-version: 1.8
+          java-version: 21
           distribution: zulu
           cache: maven
 
       - name: Build
-        run: |
-          chmod +x mvnw
-          ./mvnw -Pit -B verify --file pom.xml
+        run: ./mvnw -ntp -B -Pit verify

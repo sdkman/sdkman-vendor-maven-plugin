@@ -1,13 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
-  Release:
+  release:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.event.head_commit.message, '[release]')
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -15,26 +13,40 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          java-version: 1.8
+          java-version: 21
           distribution: zulu
-          server-id: central
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_CENTRAL_TOKEN
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
           cache: maven
 
       - name: Build
-        run: |
-          chmod +x mvnw
-          ./mvnw -Pit -B verify --file pom.xml
+        run: ./mvnw -ntp -B verify
 
       - name: Release
-        env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          MAVEN_CENTRAL_TOKEN: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          git config user.name "${{ github.event.head_commit.committer.name }}"
-          git config user.email "${{ github.event.head_commit.committer.email }}"
-          ./mvnw -B --file pom.xml release:prepare release:perform -Drepository.url=https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Action"
+          git config --global url."https://x-access-token:${JRELEASER_GITHUB_TOKEN}@github.com/".insteadOf "git@github.com:"
+          ./mvnw -ntp -B -Prelease release:prepare release:perform
+        env:
+          JRELEASER_MAVENCENTRAL_USERNAME: ${{ secrets.JRELEASER_MAVENCENTRAL_USERNAME }}
+          JRELEASER_MAVENCENTRAL_TOKEN: ${{ secrets.JRELEASER_MAVENCENTRAL_TOKEN }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.JRELEASER_GPG_PUBLIC_KEY }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.JRELEASER_GPG_SECRET_KEY }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: JReleaser output
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: jreleaser-release
+          path: |
+            target/jreleaser/trace.log
+            target/jreleaser/output.properties
+
+      - name: Update pom
+        run: |
+          sed -i -e "s@project.build.outputTimestamp>.*</project.build.outputTimestamp@project.build.outputTimestamp>\${git.commit.author.time}</project.build.outputTimestamp@g" pom.xml
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Action"
+          git commit -a -m "build: Update timestamp expression"
+          git push origin master
