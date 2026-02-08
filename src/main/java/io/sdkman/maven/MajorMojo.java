@@ -39,9 +39,13 @@ public class MajorMojo extends BaseMojo {
    * Supported platforms are:
    * <ul>
    * <li>MAC_OSX</li>
+   * <li>MAC_ARM64</li>
    * <li>WINDOWS_64</li>
-   * <li>LINUX_64</li>
    * <li>LINUX_32</li>
+   * <li>LINUX_64</li>
+   * <li>LINUX_ARM32SF</li>
+   * <li>LINUX_ARM32HF</li>
+   * <li>LINUX_ARM64</li>
    * </ul>
    * Example:
    * <pre>
